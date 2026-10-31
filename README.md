@@ -2,7 +2,7 @@
 
 [在线试玩](https://unowhatpvp-alt.github.io/rocket-landing-simulator/) · [源码仓库](https://github.com/unowhatpvp-alt/rocket-landing-simulator)
 
-GitHub Pages 首次部署正在进行；线上资源尚未完成验收，部署状态见仓库 Actions。
+GitHub Pages 已部署成功，线上点火和资源加载已验证。推送 main 后自动执行测试、构建与部署。
 
 在浏览器中手动控制原创 O-1 助推器，完成海上垂直回收。所有实时渲染、刚体模拟、输入和音频都在客户端执行；服务器只提供静态文件，不需要账号、数据库、云端 GPU 或游戏后端。
 
@@ -128,7 +128,7 @@ New-Item -ItemType Directory -Path $env:TEMP,$env:BLENDER_USER_CONFIG,$env:BLEND
 
 执行 `pnpm build` 后，将 `dist/` 的内容完整上传到静态托管。不要直接用 `file://` 打开 HTML：模块、WASM 与模型加载需要 HTTP(S)。服务器应支持 JavaScript、GLB、WASM 对应文件类型，并为指纹化文件设置适当的长期缓存；HTML 避免永久缓存。
 
-GitHub Pages 工作流位于 `.github/workflows/pages.yml`：推送到 `main` 或手动触发后，依次安装锁定依赖、运行测试与构建、上传 `dist/` artifact，并部署到 `github-pages` 环境。[项目仓库](https://github.com/unowhatpvp-alt/rocket-landing-simulator) 已创建，Pages 发布源已保存为 GitHub Actions；[页面地址](https://unowhatpvp-alt.github.io/rocket-landing-simulator/) 的首次部署与线上验收仍在进行。配置步骤参见 [GitHub 官方文档](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
+GitHub Pages 工作流位于 `.github/workflows/pages.yml`：推送到 `main` 或手动触发后，依次安装锁定依赖、运行测试与构建、上传 `dist/` artifact，并部署到 `github-pages` 环境。[项目仓库](https://github.com/unowhatpvp-alt/rocket-landing-simulator) 已创建，Pages 发布源已保存为 GitHub Actions；[页面地址](https://unowhatpvp-alt.github.io/rocket-landing-simulator/) 已完成首次部署与线上点火验收。配置步骤参见 [GitHub 官方文档](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
 
 `vite.config.ts` 使用 `base: './'`，可放在仓库子路径中；资源路径必须保持相对路径。采用工作流时需提交源代码与锁文件，托管内容来自构建后的 `dist/`；`node_modules/`、`.pnpm-store/` 与 `work/` 不应提交。Blender 源文件不参与网页构建。WebGPU 还取决于浏览器、驱动和安全上下文；HTTPS 或 localhost 更合适。
 
@@ -143,7 +143,7 @@ GitHub Pages 工作流位于 `.github/workflows/pages.yml`：推送到 `main` �
 - 录制快照的连续回放插值，含四元数最短路径插值，保留正确的接地事件时刻。
 - 390×844 竖屏与 844×390 横屏视口布局，无溢出。
 
-上述检查来自当前桌面浏览器与模拟视口；实体移动设备、不同显卡、长时间 GPU 稳定性与线上部署资源仍需分别验证。
+上述检查来自当前桌面浏览器与模拟视口；实体移动设备、不同显卡、长时间 GPU 稳定性仍需分别验证。
 
 ## 当前边界
 

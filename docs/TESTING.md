@@ -30,3 +30,9 @@
 已准备GitHub Actions流水线，测试通过后构建并部署dist。仓库Pages来源已设置为GitHub Actions；线上完成情况以实际部署结果为准。
 
 当前检查使用桌面浏览器模拟视口，没有声称使用实体手机验证双指触控或覆盖所有显卡。Rapier初始化包装器仍有内部弃用提示，测试通过。主JavaScript包包含WASM而较大，构建会提示分块大小；仍可正常静态部署。没有测试多小时GPU稳定性；不显示虚构GPU耗时或显存。
+
+## 线上验收
+
+GitHub Actions run `41251361814` 的 build 和 deploy 成功。已在 https://unowhatpvp-alt.github.io/rocket-landing-simulator/ 实际加载 WebGPU 场景并点火、暂停，无应用错误；油门84%、高度77.8m的在线截图保存为 docs/preview-desktop.jpg。线上HTML、rocket.glb和platform.glb均返回HTTP 200，GLB内容类型为model/gltf-binary。
+
+360×640视口无页面溢出，94px摇杆按住输入改变倾角至3.6°，释放后回中。此为桌面浏览器指针模拟，不等同于实体手机双指验证。

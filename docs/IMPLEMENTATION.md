@@ -72,7 +72,7 @@ AO、Bloom、景深、热扭曲、完整反射后处理与 PWA 缓存尚未实�
 
 部署为静态 `dist/`，可上传 GitHub Pages 或其他 HTTP(S) 静态主机。相对 `base: './'` 允许仓库子路径；发布后应在目标路径验证 GLB 与 WASM 资源请求。
 
-`.github/workflows/pages.yml` 在 `main` 推送或手动触发时安装固定依赖、执行测试与构建，然后使用 Pages artifact 部署。[源码仓库](https://github.com/unowhatpvp-alt/rocket-landing-simulator) 已创建，Pages 发布源已保存为 GitHub Actions，工作流具备 Pages 写权限与 OIDC 令牌权限。[线上地址](https://unowhatpvp-alt.github.io/rocket-landing-simulator/) 的首次部署正在进行，本地构建通过不代表线上资源已验收；最终部署结果与线上验证单独记录。流程依据 [GitHub Pages 自定义工作流文档](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。游戏运行仍不依赖账号、数据库或远程物理服务。
+`.github/workflows/pages.yml` 在 `main` 推送或手动触发时安装固定依赖、执行测试与构建，然后使用 Pages artifact 部署。[源码仓库](https://github.com/unowhatpvp-alt/rocket-landing-simulator) 已创建，Pages 发布源已保存为 GitHub Actions，工作流具备 Pages 写权限与 OIDC 令牌权限。[线上地址](https://unowhatpvp-alt.github.io/rocket-landing-simulator/) 已完成首次部署：GitHub Actions 构建和部署成功，线上 WebGPU 点火验证通过，HTML 与 GLB 资源返回 200。流程依据 [GitHub Pages 自定义工作流文档](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。游戏运行仍不依赖账号、数据库或远程物理服务。
 
 
 
