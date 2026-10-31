@@ -1,0 +1,48 @@
+{
+  "rocket": {
+    "triangles": 25224,
+    "meshes": 27,
+    "animated_nodes": [
+      "engine_gimbal",
+      "landing_leg_0",
+      "landing_leg_1",
+      "landing_leg_2",
+      "landing_leg_3",
+      "grid_fin_0",
+      "grid_fin_1",
+      "grid_fin_2",
+      "grid_fin_3"
+    ],
+    "bounds_blender_z_up": {
+      "min": [
+        -3.7924516201019287,
+        -3.792452335357666,
+        0.0
+      ],
+      "max": [
+        3.7924516201019287,
+        3.792451858520508,
+        20.0
+      ]
+    },
+    "bytes": 1078640
+  },
+  "platform": {
+    "triangles": 6680,
+    "meshes": 8,
+    "animated_nodes": [],
+    "bounds_blender_z_up": {
+      "min": [
+        -22.149999618530273,
+        -22.149999618530273,
+        0.0
+      ],
+      "max": [
+        22.14999771118164,
+        22.149999618530273,
+        10.09000015258789
+      ]
+    },
+    "bytes": 448828
+  }
+}

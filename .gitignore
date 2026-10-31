@@ -1,0 +1,10 @@
+node_modules/
+dist/
+work/
+.pnpm-store/
+.cache/
+*.log
+
+*.blend1
+*.blend2
+

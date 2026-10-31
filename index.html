@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cpath d=%27M6 32 20 6 34 32Z%27 fill=%27none%27 stroke=%27%23ff8b4d%27 stroke-width=%272%27/%3E%3C/svg%3E"><meta name="theme-color" content="#0b151b"><meta name="description" content="ORBITAL — 在浏览器本地运行的 3D 火箭回收模拟器。掌握推力、修正姿态、精准着陆。"><title>ORBITAL · 火箭着陆模拟器</title></head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="ORBITAL 首页"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 29 20 5l14 24H6Z"/><path d="m14 25 6-11 6 11M11 34h18"/></svg><span>ORBITAL<small>LANDING LAB</small></span></a>
+    <div class="top-separator"></div><div class="project-title">火箭着陆模拟器 <span>3D FLIGHT SIMULATOR</span></div>
+    <div class="top-actions"><span class="local-tag"><i></i> 本地物理运算</span><button id="audio" class="icon-btn" title="开启声音" aria-label="开启声音">♫</button><button id="help" class="icon-btn" title="操作指南" aria-label="操作指南">?</button><button id="settings-open" class="settings-button"><span>⚙</span> 设置</button></div>
+  </header>
+  <main class="flight-deck">
+    <div id="viewport" aria-label="实时三维火箭场景"><div id="loading"><span class="loader"></span><b>正在建立飞行链路</b><small>加载场景与物理引擎…</small></div></div>
+    <div class="scene-vignette"></div>
+    <div class="scene-caption"><span class="live-dot"></span><span id="view-name">近景跟随</span><span class="caption-divider">/</span><span>ATLANTIC RECOVERY ZONE</span></div>
+    <div class="scene-coordinate">28° 29′ N &nbsp; 80° 32′ W <span>虚构训练区域</span></div>
+    <aside class="telemetry hud">
+      <div class="section-label"><span>MISSION CONTROL</span><span class="tiny-square">07</span></div>
+      <h1>最后一公里。<br><span>由你掌控。</span></h1>
+      <p class="mission-subtitle">O-1 助推器 · 海上垂直回收</p>
+      <div class="mission-state"><span id="state-dot"></span><b id="state-text">等待指令</b><span id="sim-time">T+ 00:00.0</span></div>
+      <div class="altitude-block"><div class="metric-label">离地高度 <small>ALTITUDE</small></div><div class="altitude"><span id="altitude">95.0</span><em>m</em></div><div class="altitude-scale"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+      <div class="metric-grid">
+        <div class="metric-vspeed"><span class="metric-label">垂直速度</span><strong id="vertical-speed">−8.0</strong><em>m/s</em><small>VERTICAL VELOCITY</small></div>
+        <div class="metric-hspeed"><span class="metric-label">水平速度</span><strong id="horizontal-speed">0.0</strong><em>m/s</em><small>HORIZONTAL VELOCITY</small></div>
+        <div class="metric-offset"><span class="metric-label">目标偏差</span><strong id="offset">11.2</strong><em>m</em><small>PAD OFFSET</small></div>
+        <div class="metric-attitude"><span class="metric-label">倾斜角度</span><strong id="tilt">0.0</strong><em>°</em><small>ATTITUDE</small></div>
+      </div>
+      <div class="fuel-section"><div><span>推进剂储量</span><b id="fuel">100<small>%</small></b></div><div class="fuel-track"><span id="fuel-bar"></span></div><small id="fuel-mass">PROP. RESERVE</small></div>
+      <button id="perf-toggle" class="text-btn"><span class="perf-light"></span><span id="fps">— FPS</span><span id="backend">连接中</span><span class="expand">⌄</span></button>
+      <div id="performance" hidden></div>
+    </aside>
+    <section class="throttle-panel hud" aria-label="发动机控制">
+      <div class="section-label"><span>ENGINE CONTROL</span><span>01</span></div>
+      <div class="throttle-heading">发动机推力 <i id="engine-status">待机</i></div>
+      <div class="throttle-number"><b id="throttle-value">0</b><span>%</span></div>
+      <div class="throttle-control"><div class="throttle-ticks"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div><div class="throttle-rail"><div id="throttle-fill"></div><span id="hover-marker" title="当前质量下的理论悬停推力"></span><input id="throttle" type="range" min="0" max="100" step="0.5" value="0" orient="vertical" aria-orientation="vertical" aria-label="发动机目标油门" aria-describedby="throttle-instruction"></div><div class="throttle-label">THROTTLE</div></div>
+      <div class="thrust-row"><span>实际推力</span><b id="thrust">0 <small>kN</small></b></div><div class="hover-row">悬停参考 <b id="hover-value">—%</b></div>
+      <div class="space-hint"><kbd>SPACE</kbd><span>按住增推 · 松开减推</span></div><p id="throttle-instruction" class="touch-throttle-hint">向上增推<br>松手保持</p>
+      <button id="engine-cut" class="text-btn">发动机关断 <span>↘</span></button>
+    </section>
+    <div class="camera-toolbar hud" role="group" aria-label="摄像机视角"><span>CAM</span><div id="camera-buttons"><button data-camera="0" class="active" title="跟随火箭，平滑保持观察距离" aria-label="跟随火箭视角">跟随</button><button data-camera="1" title="侧面观察火箭下降">侧视</button><button data-camera="2" title="同时观察火箭与平台">远景</button><button data-camera="3" title="从平台抬头观察">平台</button><button data-camera="4" title="拖动环绕，滚轮或双指缩放">自由</button></div><button id="camera-next" title="切换镜头 C">↻ <kbd>C</kbd></button></div>
+    <div id="landing-radar" class="landing-radar hud" aria-label="火箭相对平台的位置，圆点为火箭，十字中心为平台">
+      <div class="radar-disc" aria-hidden="true"><span class="radar-cross radar-cross-x"></span><span class="radar-cross radar-cross-y"></span><span id="radar-target"></span><span id="radar-marker"></span></div>
+      <div class="radar-info"><span>着陆偏差</span><b id="radar-distance">11.2 m</b><small>十字中心是平台</small></div>
+    </div>
+    <p id="control-reference" class="camera-guidance hud"><span class="desktop-guidance">W 远离镜头 · S 朝向镜头 · A / D 左右</span><span class="touch-guidance">摇杆相对当前镜头 · 油门松手保持</span></p>
+    <div class="center-reticle"><span></span><i></i><span></span></div>
+    <div id="flight-advice" class="flight-advice hud"><span>01 / 准备进近</span><b>调节油门，找准你的着陆节奏。</b></div>
+    <div id="result" class="result" hidden><span id="result-kicker">MISSION COMPLETE</span><h2 id="result-title">精准着陆</h2><p id="result-detail"></p><div><button id="result-reset" class="primary-button">再次尝试 ↗</button><button id="replay" class="secondary-button">电影回放</button></div></div>
+    <div id="joystick" class="joystick" role="group" tabindex="0" aria-label="姿态摇杆，上推远离镜头，下拉朝向镜头，左右改变倾斜" aria-describedby="control-reference"><span class="joystick-label">姿态控制</span><i class="stick-direction stick-up" aria-hidden="true">↑</i><i class="stick-direction stick-left" aria-hidden="true">←</i><i class="stick-direction stick-right" aria-hidden="true">→</i><i class="stick-direction stick-down" aria-hidden="true">↓</i><div class="knob" data-knob></div><small>松手回中</small></div>
+  </main>
+  <footer class="bottom-bar hud">
+    <div class="flight-progress"><span class="progress-step active"><i>01</i> 进近</span><span class="progress-line"></span><span class="progress-step" id="phase-burn"><i>02</i> 减速</span><span class="progress-line"></span><span class="progress-step" id="phase-land"><i>03</i> 着陆</span></div>
+    <div class="key-guide"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 姿态</span><span><kbd>R</kbd> 重置</span><span><kbd>H</kbd> HUD</span></div>
+    <div class="flight-buttons"><button id="reset" class="reset-button" title="重置 R">↻ 重置</button><button id="start" class="primary-button" disabled><span>▶</span> 开始模拟</button></div>
+  </footer>
+</div>
+<dialog id="settings" aria-labelledby="settings-title"><form method="dialog"><div class="dialog-head"><div><span class="section-label">FLIGHT CONFIGURATION</span><h2 id="settings-title">你的飞行设定</h2></div><button class="close-button" aria-label="关闭设置">×</button></div><p class="dialog-description">打开设置会暂停飞行并清除操纵输入。关闭后点击继续；切换物理模式将重新开始。</p><label class="setting-row">物理模式<select id="mode"><option value="arcade">街机 · 辅助稳定</option><option value="realistic">真实感 · 严格着陆</option></select></label><label class="setting-row">场景光照<select id="environment"><option value="day">海岸清晨</option><option value="dusk">落日余晖</option><option value="night">深夜回收</option></select></label><label class="setting-row">画质预设<select id="quality"><option value="auto">自动适配</option><option value="low">低 · 节能</option><option value="medium">中 · 均衡</option><option value="high">高 · 细腻</option><option value="ultra">极高 · 全分辨率</option><option value="custom" disabled>自定义</option></select></label><label class="setting-row">渲染分辨率<input id="resolution" type="range" min="0.5" max="1.5" step="0.1" value="1"><output id="resolution-value">1.0×</output></label><label class="setting-row">姿态灵敏度<input id="sensitivity" type="range" min="0.3" max="2" step="0.1" value="1"><output id="sensitivity-value">1.0×</output></label><label class="setting-row">无限燃料 <input id="unlimited" type="checkbox"><span class="setting-note">仅街机模式</span></label><label class="setting-row">辅助姿态稳定 <input id="stabilize" type="checkbox" checked></label><label class="setting-row">动态阴影 <input id="shadows" type="checkbox" checked></label><label class="setting-row">简洁 HUD <input id="minimal" type="checkbox"></label><p class="setting-footnote">全部模拟与渲染在本机完成。参数为原创娱乐设定。</p><button class="primary-button full-width">返回飞行 ↗</button></form></dialog>
+<dialog id="guide" aria-labelledby="guide-title"><form method="dialog"><div class="dialog-head"><div><span class="section-label">PILOT BRIEFING</span><h2 id="guide-title">把速度交还给天空。</h2></div><button class="close-button" aria-label="关闭指南">×</button></div><p>目标：让助推器在平台内，以低速度、接近竖直的姿态着陆。</p><ol class="guide-steps"><li><b>先点「开始模拟」</b><span>火箭从平台上方 95 米开始下降。先熟悉跟随机位，必要时切到远景同时观察平台；随时可以暂停。</span></li><li><b>用油门控制下降速度</b><span>拖动右侧油门，上推增推、下拉减推，松手保持目标油门。电脑也可按住空格增推、松开减推。实际推力有响应延迟，虚线为悬停参考。</span></li><li><b>微调姿态，让落点回到平台</b><span>W / 摇杆上推：远离镜头；S / 下拉：朝向镜头；A、D / 左右：相对当前镜头左右倾斜。你控制的是姿态，推力与惯性决定移动。辅助稳定开启时会帮助回正。</span></li><li><b>在接地前完成减速</b><span>街机模式要求垂直速度 ≤ 3 m/s、倾角 ≤ 10°；真实感模式要求 ≤ 1.8 m/s、≤ 5°。四只脚必须在甲板内，水平速度也须足够低。小雷达的十字中心是平台，亮点是火箭；两者重合代表对准。</span></li></ol><p class="guide-touch-note">手机可同时用左手摇杆、右手油门。自由机位中拖动旋转、双指缩放；打开指南或设置会暂停飞行。</p><div class="guide-keys"><kbd>P</kbd> 暂停 <kbd>C</kbd> 镜头 <kbd>R</kbd> 重置 <kbd>H</kbd> 显隐 HUD</div><button class="primary-button full-width">收到，准备回收 ↗</button></form></dialog>
+<div id="toast" role="status"></div>
+<script type="module" src="/src/main.ts"></script>
+</body></html>
+
+
+
